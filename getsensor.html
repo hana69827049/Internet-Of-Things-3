@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+    <style>
+			/* CSS comes here */
+      body {
+      background-color: white;
+  }
+
+
+.container {
+    margin: 10% auto;
+    width: 50%;
+    height: 40vh;
+    border: solid 5px #FAA810;
+    border-radius: 24px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.sensor_value {
+    margin: auto;
+    height: 75%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.sensor_value h1 {
+    font-size: 6rem;
+    color: black;
+}
+
+
+</style>
+    <title>Temperature </title>
+</head>
+
+<body>
+
+
+    <div class="container">
+
+        <div class="sensor_container">
+            <h1>Temperature</h1>
+            <div class="sensor_value">
+                <h1 id="temperature"></h1>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        var interval = 30000;
+        function getValues() {
+            var xmlhttp;
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "http://127.0.0.1/website/Sensor.php", true);
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    myObj = JSON.parse(this.responseText);
+                    document.getElementById("temperature").innerHTML = myObj[0].Temperature;
+                    document.getElementById("updatedDate").innerHTML = myObj[0].AddedOnData;
+                    console.log(myObj[0].Temperature);
+                }
+            };
+            xmlhttp.send();
+        }
+        setInterval(function () {
+            getValues()
+        }, interval);
+
+
+    </script>
+</body>
+
+</html>
